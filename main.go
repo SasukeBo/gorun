@@ -23,13 +23,13 @@ Usage: gorun [options] <subject>
 Example: gorun -id gorun main.go
 
 Options:
-	-ip, --apollo_ip	<url>				APOLLO API server URL
-	-c,  --cluster   	<cluster name>		APOLLO cluster name
-	-id, --app_id		<app id>			APOLLO app id
-	-k,  --key			<access key>		APOLLO access key
-	-r,  --registry		<service registry>	Micro service registry
-	-t,  --test			 					Go test
-	--print									Print env
+	-ip, --apollo_ip  <url>                 APOLLO API server URL
+	-c,  --cluster    <cluster name>        APOLLO cluster name
+	-id, --app_id     <app id>              APOLLO app id
+	-k,  --key        <access key>          APOLLO access key
+	-r,  --registry   <service registry>    Micro service registry
+	-t,  --test                             Go test
+	--print                                 Print env
 `
 
 const (
