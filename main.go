@@ -59,8 +59,8 @@ func main() {
 	flag.StringVar(&apolloIP, "apollo_ip", defaultApolloIP, "The Apollo config api server URL")
 	flag.StringVar(&cluster, "c", defaultCluster, "The Apollo cluster name")
 	flag.StringVar(&cluster, "cluster", defaultCluster, "The Apollo cluster name")
-	flag.StringVar(&appID, "id", "", "The Apollo app id")
-	flag.StringVar(&appID, "app_id", "", "The Apollo app id")
+	flag.StringVar(&appID, "id", "YOU_APP_ID", "The Apollo app id")
+	flag.StringVar(&appID, "app_id", "YOU_APP_ID", "The Apollo app id")
 	flag.StringVar(&key, "k", "default_key", "The Apollo access key")
 	flag.StringVar(&key, "key", "default_key", "The Apollo access key")
 	flag.StringVar(&registry, "r", defaultRegistry, "The micro service registry")
@@ -74,7 +74,7 @@ func main() {
 
 	args := flag.Args()
 
-	if len(args) < 1 {
+	if len(args) < 1 && !isPrint {
 		usage()
 	}
 
