@@ -15,9 +15,13 @@ var (
 	warn    = color.Warn.Render
 	success = color.Success.Render
 	danger  = color.Danger.Render
+
+	version = "v0.0.1"
 )
 
-var usageStr = `
+var usageStr = fmt.Sprintf(`
+Version: %s
+
 Usage: gorun [options] <subject>
 
 Example: gorun -id gorun main.go
@@ -30,7 +34,7 @@ Options:
 	-r,  --registry   <service registry>    Micro service registry
 	-t,  --test                             Go test
 	--print                                 Print env
-`
+`, version)
 
 const (
 	defaultApolloIP = "apollo.api.test.thingyouwe.com"
