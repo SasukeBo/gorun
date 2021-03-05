@@ -36,7 +36,7 @@ Options:
 	--print                                 Print env
 `, version)
 
-const (
+var (
 	defaultApolloIP = "apollo.api.test.thingyouwe.com"
 	defaultCluster  = "wb_local"
 	defaultRegistry = "etcd"
@@ -58,6 +58,18 @@ func main() {
 		isPrint  bool
 		cmd      *exec.Cmd
 	)
+
+	if v := os.Getenv("APOLLO_IP"); len(v) != 0 {
+		defaultApolloIP = v
+	}
+
+	if v := os.Getenv("APOLLO_ENV"); len(v) != 0 {
+		defaultCluster = v
+	}
+
+	if v := os.Getenv("registry"); len(v) != 0 {
+		defaultRegistry = v
+	}
 
 	flag.StringVar(&apolloIP, "ip", defaultApolloIP, "The Apollo config api server URL")
 	flag.StringVar(&apolloIP, "apollo_ip", defaultApolloIP, "The Apollo config api server URL")
