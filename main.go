@@ -128,8 +128,8 @@ func main() {
 
 	if test {
 		fmt.Println(info("\n--------------------------------"))
-		fmt.Printf("\n%s go test --run %s\n\n", info("[Test]"), args[0])
-		cmd = exec.Command("go", "test", "--run", args[0])
+		fmt.Printf("\n%s go test -v --run %s\n\n", info("[Test]"), args[0])
+		cmd = exec.Command("go", "test", "-v", "--run", args[0])
 	} else if isPrint {
 		fmt.Printf("%s %s\n", warn("registry:"), registry)
 		fmt.Println(info("\n--------------------------------"))
