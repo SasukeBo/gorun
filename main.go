@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 )
 
@@ -37,7 +38,7 @@ Options:
 `, version)
 
 var (
-	defaultApolloIP = "apollo.api.test.thingyouwe.com"
+	defaultApolloIP = "apollo.api.thingyouwe.com"
 	defaultCluster  = "wb_local"
 	defaultRegistry = "etcd"
 )
@@ -75,8 +76,8 @@ func main() {
 	flag.StringVar(&apolloIP, "apollo_ip", defaultApolloIP, "The Apollo config api server URL")
 	flag.StringVar(&cluster, "c", defaultCluster, "The Apollo cluster name")
 	flag.StringVar(&cluster, "cluster", defaultCluster, "The Apollo cluster name")
-	flag.StringVar(&appID, "id", "YOU_APP_ID", "The Apollo app id")
-	flag.StringVar(&appID, "app_id", "YOU_APP_ID", "The Apollo app id")
+	flag.StringVar(&appID, "id", "", "The Apollo app id")
+	flag.StringVar(&appID, "app_id", "", "The Apollo app id")
 	flag.StringVar(&key, "k", "default_key", "The Apollo access key")
 	flag.StringVar(&key, "key", "default_key", "The Apollo access key")
 	flag.StringVar(&registry, "r", defaultRegistry, "The micro service registry")
@@ -106,8 +107,11 @@ func main() {
 	}
 	env = append(env, assembleEnv("APOLLO_ENV", cluster))
 	if isEmpty(appID) {
-		fmt.Println(danger("app_id cannot be empty."))
-		return
+		dir, err := os.Getwd()
+		if err != nil {
+			panic(err)
+		}
+		appID = filepath.Base(dir)
 	}
 	env = append(env, assembleEnv("APOLLO_APPID", appID))
 	if isEmpty(key) {
