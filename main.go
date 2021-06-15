@@ -89,9 +89,16 @@ func main() {
 	flag.Usage = usage
 	flag.Parse()
 
+	var entrypoint string
 	args := flag.Args()
+	if len(args) > 0 {
+		entrypoint = args[0]
+	} else {
+		entrypoint = "main.go"
+	}
 
-	if len(args) < 1 && !isPrint {
+	if len(args) < 1 && test {
+		fmt.Println("unknown usage.")
 		usage()
 	}
 
@@ -131,9 +138,10 @@ func main() {
 	fmt.Printf("%s %s\n", warn("APOLLO_APPID:"), appID)
 
 	if test {
+		fmt.Printf("%s %s\n", warn("entrypoint:"), entrypoint)
 		fmt.Println(info("\n--------------------------------"))
-		fmt.Printf("\n%s go test -v --run %s\n\n", info("[Test]"), args[0])
-		cmd = exec.Command("go", "test", "-v", "--run", args[0])
+		fmt.Printf("\n%s go test -v --run %s\n\n", info("[Test]"), entrypoint)
+		cmd = exec.Command("go", "test", "-v", "--run", entrypoint)
 	} else if isPrint {
 		fmt.Printf("%s %s\n", warn("registry:"), registry)
 		fmt.Println(info("\n--------------------------------"))
@@ -141,9 +149,10 @@ func main() {
 		return
 	} else {
 		fmt.Printf("%s %s\n", warn("registry:"), registry)
+		fmt.Printf("%s %s\n", warn("entrypoint:"), entrypoint)
 		fmt.Println(info("\n--------------------------------"))
 		fmt.Printf("\n%s service starting ...\n\n", info(fmt.Sprintf("[%s]", appID)))
-		cmd = exec.Command("go", "run", args[0])
+		cmd = exec.Command("go", "run", entrypoint)
 	}
 
 	if cmd == nil {
