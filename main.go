@@ -172,13 +172,35 @@ func main() {
 		_, errStderr = copyAndCapture(stderrIn)
 	}()
 
+	{ // go mod tidy
+		tidy := exec.Command("go", "mod", "tidy")
+
+		tidyOut, _ := tidy.StdoutPipe()
+		tidyErr, _ := tidy.StderrPipe()
+
+		go func() {
+			_, errStdout = copyAndCapture(tidyOut)
+		}()
+		go func() {
+			_, errStderr = copyAndCapture(tidyErr)
+		}()
+
+		if err := tidy.Start(); err != nil {
+			panic(err.Error())
+		}
+		if err := tidy.Wait(); err != nil {
+			fmt.Print(danger(fmt.Sprintf("\ngorun failed with tidy: %v\n", err)))
+			return
+		}
+	}
+
 	if err := cmd.Start(); err != nil {
 		panic(err.Error())
 	}
 
 	err := cmd.Wait()
 	if err != nil {
-		fmt.Print(danger(fmt.Sprintf("\ngorun failed with %s\n", err)))
+		fmt.Print(danger(fmt.Sprintf("\ngorun failed: %v\n", err)))
 		return
 	}
 	if errStdout != nil || errStderr != nil {
